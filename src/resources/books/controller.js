@@ -85,9 +85,10 @@ const patchOneById = async (req, res) => {
   }
   sqlParams.push(id);
 
-  updateOneByTitleSQL = updateOneByTitleSQL.slice(0, sqlTemplate.length -1);
+  updateOneByTitleSQL = updateOneByTitleSQL.slice(0, updateOneByTitleSQL.length -1);
   updateOneByTitleSQL += ` where id = $`;
   updateOneByTitleSQL += i;
+  updateOneByTitleSQL += ','
   updateOneByTitleSQL += `RETURNING *`
 
   console.log("updateOneByTitleSQL", updateOneByTitleSQL)
