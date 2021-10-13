@@ -116,9 +116,9 @@ console.log("idToDelete", idToDelete)
     
     try {
       const result = await db.query(deleteOneByIdSQL, [idToDelete])
-      res.json ({data: result.rows})
+      res.json ({message: "Delete Successful"})
     } catch (error) {
-      console.error ("[ERROR deleteOneById: ", {error: error.message});
+      console.error ("ERROR deleteOneById: ", {error: error.message});
     
       res.status(500).json({ error: error.message });
     }

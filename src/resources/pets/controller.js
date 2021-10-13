@@ -97,7 +97,7 @@ const updateOneById = async (req, res) => {
       const result = await db.query(updateOneByTitleSQL, [sqlParams])
       res.json ({data: result.rows[0]})
     } catch (error) {
-      console.error ("[ERROR patchOneById: ", {error: error.message});
+      console.error ("ERROR patchOneById: ", {error: error.message});
     
       res.status(500).json({ error: error.message });
     }
@@ -115,7 +115,7 @@ const updateOneById = async (req, res) => {
       
       try {
         const result = await db.query(deleteOneByIdSQL, [idToDelete.id])
-        res.json ({data: result.rows})
+        res.json ({message: "Delete Successful"})
       } catch (error) {
         console.error ("[ERROR deleteOneById: ", {error: error.message});
       
