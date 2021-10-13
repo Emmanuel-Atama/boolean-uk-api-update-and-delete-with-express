@@ -14,6 +14,6 @@ router.put("/:id", updateOneById)
 
 router.patch("/:id", patchOneById)
 
-router.delete("/:delete", deleteOneById)
+router.delete("/:id", deleteOneById)
 
 module.exports = router;

@@ -104,11 +104,9 @@ const updateOneById = async (req, res) => {
   }
   
     const deleteOneById = async(req, res) => {
-      console.log("Pets Router [DELETE]", {params: req.params, body: req.body})
   
-      const idToDelete = {
-        id: req.params.id,
-      }
+      const idToDelete = req.params.id;
+
       
       const deleteOneByIdSQL = `
       DELETE FROM pets 
