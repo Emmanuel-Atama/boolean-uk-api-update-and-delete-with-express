@@ -10,7 +10,7 @@ router.get("/", getAll);
 
 router.get("/:id", getOneById);
 
-router.put("/:updateId", updateOneById)
+router.put("/:id", updateOneById)
 
 router.patch("/:updateTitle", updateOneByName)
 

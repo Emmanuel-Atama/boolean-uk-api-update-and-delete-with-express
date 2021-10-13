@@ -68,7 +68,7 @@ const updateOneById = async (req, res) => {
   const updateOneByName = async (req, res) => {
     console.log("Pets Router [UPDATE]", {params: req.params, body: req.body})
     
-    const bookToUpdate = {
+    const petsToUpdate = {
       id: req.params.id,
       ...req.body
     }
@@ -80,7 +80,7 @@ const updateOneById = async (req, res) => {
     `;
     
     try {
-      const result = await db.query(updateOneByNameSQL, [bookToUpdate.name, bookToUpdate.id])
+      const result = await db.query(updateOneByNameSQL, [petsToUpdate.name, petsToUpdate.id])
       res.json ({data: result.rows[0]})
     } catch (error) {
       console.error ("[ERROR updateOneByName: ", {error: error.message});
