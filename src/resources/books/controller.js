@@ -88,14 +88,13 @@ const patchOneById = async (req, res) => {
   updateOneByTitleSQL = updateOneByTitleSQL.slice(0, updateOneByTitleSQL.length -1);
   updateOneByTitleSQL += ` where id = $`;
   updateOneByTitleSQL += i;
-  updateOneByTitleSQL += ','
-  updateOneByTitleSQL += `RETURNING *`
+  updateOneByTitleSQL += ` RETURNING * `
 
   console.log("updateOneByTitleSQL", updateOneByTitleSQL)
   console.log("sqlParams", sqlParams);
 
   try {
-    const result = await db.query(updateOneByTitleSQL, [sqlParams])
+    const result = await db.query(updateOneByTitleSQL, sqlParams)
     res.json ({data: result.rows[0]})
   } catch (error) {
     console.error ("[ERROR patchOneById: ", {error: error.message});
@@ -107,20 +106,17 @@ const patchOneById = async (req, res) => {
   const deleteOneById = async(req, res) => {
     console.log("Books Router [DELETE]", {params: req.params, body: req.body})
 
-    const idToDelete = {
-      id: req.params.id,
-      ...req.body,
-    }
+    const idToDelete = req.params.id;
+console.log("idToDelete", idToDelete)
     
     const deleteOneByIdSQL = `
     DELETE FROM books 
     WHERE id = $1
-    RETURNING *
     `;
     
     try {
-      const result = await db.query(deleteOneByIdSQL, [idToDelete.id])
-      res.json ({data: result.rows[0]})
+      const result = await db.query(deleteOneByIdSQL, [idToDelete])
+      res.json ({data: result.rows})
     } catch (error) {
       console.error ("[ERROR deleteOneById: ", {error: error.message});
     

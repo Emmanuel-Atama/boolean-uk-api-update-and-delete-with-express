@@ -108,18 +108,16 @@ const updateOneById = async (req, res) => {
   
       const idToDelete = {
         id: req.params.id,
-        ...req.body,
       }
       
       const deleteOneByIdSQL = `
       DELETE FROM pets 
       WHERE id = $1
-      RETURNING *
       `;
       
       try {
         const result = await db.query(deleteOneByIdSQL, [idToDelete.id])
-        res.json ({data: result.rows[0]})
+        res.json ({data: result.rows})
       } catch (error) {
         console.error ("[ERROR deleteOneById: ", {error: error.message});
       
