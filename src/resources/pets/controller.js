@@ -65,29 +65,43 @@ const updateOneById = async (req, res) => {
   }
   }
 
-  const updateOneByName = async (req, res) => {
-    console.log("Pets Router [UPDATE]", {params: req.params, body: req.body})
-    
-    const petsToUpdate = {
-      id: req.params.id,
-      ...req.body
-    }
-    
-    const updateOneByNameSQL = `
-    UPDATE pets SET name = $1
-    WHERE id = $2
-    RETURNING *
+  const patchOneById = async (req, res) => {
+    const id = req.params.id
+    const petToUpdate  = req.body
+  
+    let updateOneByTitleSQL = `
+    UPDATE books SET
     `;
-    
+  
+    const sqlParams = [];
+  
+    let i = 1;
+    for (const key in petToUpdate) {
+      updateOneByTitleSQL += `${key} =$`;
+      updateOneByTitleSQL += i;
+      updateOneByTitleSQL += ','
+      sqlParams.push(petToUpdate[key])
+      i = i + 1;
+    }
+    sqlParams.push(id);
+  
+    updateOneByTitleSQL = updateOneByTitleSQL.slice(0, sqlTemplate.length -1);
+    updateOneByTitleSQL += ` where id = $`;
+    updateOneByTitleSQL += i;
+    updateOneByTitleSQL += `RETURNING *`
+  
+    console.log("updateOneByTitleSQL", updateOneByTitleSQL)
+    console.log("sqlParams", sqlParams);
+  
     try {
-      const result = await db.query(updateOneByNameSQL, [petsToUpdate.name, petsToUpdate.id])
+      const result = await db.query(updateOneByTitleSQL, [sqlParams])
       res.json ({data: result.rows[0]})
     } catch (error) {
-      console.error ("[ERROR updateOneByName: ", {error: error.message});
+      console.error ("[ERROR patchOneById: ", {error: error.message});
     
       res.status(500).json({ error: error.message });
     }
-    }
+  }
   
     const deleteOneById = async(req, res) => {
       console.log("Pets Router [DELETE]", {params: req.params, body: req.body})
@@ -119,6 +133,6 @@ module.exports = {
   getAll,
   getOneById,
   updateOneById,
-  updateOneByName,
+  patchOneById,
   deleteOneById
 };
